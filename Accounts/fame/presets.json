@@ -1,0 +1,1 @@
+{"particles": [{"name": "Your First Particle!", "size": 10, "lifespan": 10, "color": [255, 255, 255], "shape": "cir"}, {"name": "test", "size": 30, "lifespan": 90, "color": [255, 0, 255], "shape": "star"}, {"name": "ewq", "size": 20, "lifespan": 150, "color": [255, 255, 255], "shape": "tri"}]}
