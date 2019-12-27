@@ -15,8 +15,6 @@ clock = pygame.time.Clock()
 
 
 class Particle:
-
-
     def __init__(self, size, lifeSpan, color, shape):
         self.pos = None
         self.vel = None
@@ -36,8 +34,6 @@ class Particle:
         else:
             points = self.getPoints()
             pygame.draw.polygon(screen, self.color, points)
-        # IMAGE = pygame.image.load('C:\\Users\\Admin\\Desktop\\Sptite2.png').convert_alpha()
-        # screen.blit(IMAGE, self.pos)
     def update(self):
         self.pos[0] += self.vel[0]
         self.pos[1] += self.vel[1]

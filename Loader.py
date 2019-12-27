@@ -1,13 +1,19 @@
 import json
 import os
+import sys
 from Coder import *
 
-sudoClear = lambda: print('\n'*10)
+sudoClear = lambda: print('\n'*10) # Выведение 10 символов перевода строки
 
 def getPass(name):
-    directory = "C:\\Users\\Admin\\Desktop\\ParticleSystem2\\Accounts\\" + name
+    '''
+    Загружает пароль пользователя из файла \{login}\pass.txt
+    :param name: Имя пользователя
+    :return: Пароль пользователя
+    '''
+    directory = sys.argv[0][0:-7]+"Accounts\\" + name
     if os.path.exists(directory):
-        path = "C:\\Users\\Admin\\Desktop\\ParticleSystem2\\Accounts\\" + name + "\\pass.txt"
+        path = sys.argv[0][0:-7]+"Accounts\\" + name + "\\pass.txt"
     else:
         # sudoClear()
         print("Такого пользователя не существует!")
@@ -18,6 +24,12 @@ def getPass(name):
     return password_
 
 def signIn(name = None, password = None):
+    '''
+    Проверка совпадения комбинации логин+пароль
+    :param name: Имя пользовтеля
+    :param password: Пароль пользователя
+    :return: Кортеж (логин, пароль)
+    '''
     if not name:
         name = input("Введите имя пользователя: ").lower()
         password_ = input("Введите пароль: ")
@@ -36,8 +48,12 @@ def signIn(name = None, password = None):
         return signIn(name)
 
 def signUp():
+    """
+    Регистрация нового пользователя
+    :return: Автоматически входит в систему
+    """
     name = input("Придумайте имя пользователя: ").lower()
-    directory = "C:\\Users\\Admin\\Desktop\\ParticleSystem2\\Accounts\\" + name
+    directory = sys.argv[0][0:-7]+"Accounts\\" + name
     if not os.path.exists(directory):
         os.makedirs(directory)
         file = open(directory + "\\pass.txt", "w")
@@ -72,6 +88,10 @@ def signUp():
 
 
 def launch():
+    '''
+    Обработчик вход/регистрация
+    :return: None
+    '''
     ans = input("В первый раз? [Y/N]\n").upper()
     if ans == "Y":
         print("РЕГИСТРАЦИЯ")

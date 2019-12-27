@@ -1,7 +1,7 @@
 import pygame
 import math
 import json
-
+import sys
 import Loader
 
 from Const import *
@@ -23,6 +23,12 @@ print("LOADED")
 
 
 def getAngle(start, end):
+    """
+
+    :param start: Кординаты 1 точки
+    :param end:  Координаты 2 точки
+    :return: Угол в градусах между прямой проходящей через [start,end] и горизонтальной прямой
+    """
     vector = [start[0] - end[0], start[1] - end[1]]
     if vector[0] == 0:
         vector[0] = 1
@@ -34,6 +40,10 @@ def getAngle(start, end):
 
 
 def setupEmmiter():
+    '''
+
+    :return: Список с координатами эммитара и иглом испускания частиц
+    '''
     checking = True
     gottem = False
     start = [None, None, None]
@@ -60,17 +70,19 @@ def setupEmmiter():
 
 
 def createParticle():
+    '''
+    Пользователь создаёт новую частицу и она сохраняется в файле \{login}\presets.json
+    :return: None
+    '''
 
-    name = input("Enter name: ")
+    name = input("Введите название: ")
+    size = int(input("Введите размер: "))
+    lifespan = int(input("Введите продолжительность жизни: "))
+    color = [R, G, B] = [int(x) for x in input("Введите цвет в формате rgb - '255 0 255' : ").split()]
 
-    size = int(input("Enter size: "))
+    # imgsrc = None
 
-    lifespan = int(input("Enter lifespan: "))
-
-    color = [R, G, B] = [int(x) for x in input("Enter 'R G B': ").split()]
-
-
-    shape = input("Enter shape(cir,tri,sqr,star): ")
+    shape = input("Введите форму(cir,tri,sqr,star): ")
 
     newParticle = {
         "name": name,
@@ -79,8 +91,7 @@ def createParticle():
         "color": color,
         "shape": shape
     }
-
-    directory = "C:\\Users\\Admin\\Desktop\\ParticleSystem2\\Accounts\\" + loaderData[0]
+    directory = sys.argv[0][0:-7] + "Accounts\\" + loaderData[0]
     path = directory + "\\presets.json"
 
     oldPresets = {}
@@ -90,13 +101,17 @@ def createParticle():
 
     with open(path, "w") as presets:
         json.dump(oldPresets, presets)
-    input("Частица сохранена! Press 'Enter'")
+    input("Частица сохранена! Нажмите 'Enter'")
 
 
 def setupParticle():
+    """
+    Обработка создания/загрузки частиц
+    :returns: Прототип объекта класса Particle или сообщение об ошибке
+    """
     ans = input("Хотите создать новую частицу? [Y/N]\n").upper()
 
-    directory = "C:\\Users\\Admin\\Desktop\\ParticleSystem2\\Accounts\\" + loaderData[0]
+    directory = sys.argv[0][0:-7] + "Accounts\\" + loaderData[0]
     path = directory + "\\presets.json"
 
     if ans == "Y":
@@ -120,12 +135,9 @@ def setupParticle():
 
 
 def main():
-    # horse = pygame.image.load("img\\horse_new.png")
-    # bg = pygame.image.load('img\\bg.png')
-
-    testParticle = setupParticle()
-    start = setupEmmiter()
-    testEmmiter = Emmiter(testParticle, # Частица
+    testParticle = setupParticle() # Установка позиции и угла испускания для эммитера
+    start = setupEmmiter() # Установка эммитера
+    testEmmiter = Emmiter(testParticle, # Прото-Частица
                           start[0], # Стартовая позиция
                           start[1] + 10, # Угол 1
                           start[1] - 10, # Угол 2
@@ -159,7 +171,6 @@ def main():
         pygame.display.update()
 
 # ----------------------------------------------- #
-
 
 loaderData = Loader.launch()
 
